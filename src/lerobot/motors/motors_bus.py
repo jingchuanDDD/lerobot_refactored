@@ -99,12 +99,12 @@ class MotorsBusBase(abc.ABC):
         pass
 
     @abc.abstractmethod
-    def enable_torque(self, motors: str | list[str] | None = None, num_retry: int = 0) -> None:
+    def enable_torque(self, motors: str | list[str] | None = None, num_retry: int = 5) -> None:
         """Enable torque on selected motors."""
         pass
 
     @abc.abstractmethod
-    def disable_torque(self, motors: str | list[str] | None = None, num_retry: int = 0) -> None:
+    def disable_torque(self, motors: str | list[str] | None = None, num_retry: int = 5) -> None:
         """Disable torque on selected motors."""
         pass
 
@@ -631,7 +631,7 @@ class SerialMotorsBus(MotorsBusBase):
         pass
 
     @abc.abstractmethod
-    def disable_torque(self, motors: str | list[str] | None = None, num_retry: int = 0) -> None:
+    def disable_torque(self, motors: str | list[str] | None = None, num_retry: int = 5) -> None:
         """Disable torque on selected motors.
 
         Disabling Torque allows to write to the motors' permanent memory area (EPROM/EEPROM).
@@ -645,11 +645,11 @@ class SerialMotorsBus(MotorsBusBase):
         pass
 
     @abc.abstractmethod
-    def _disable_torque(self, motor: int, model: str, num_retry: int = 0) -> None:
+    def _disable_torque(self, motor: int, model: str, num_retry: int = 5) -> None:
         pass
 
     @abc.abstractmethod
-    def enable_torque(self, motors: int | str | list[str] | None = None, num_retry: int = 0) -> None:
+    def enable_torque(self, motors: int | str | list[str] | None = None, num_retry: int = 5) -> None:
         """Enable torque on selected motors.
 
         Args:
@@ -1018,7 +1018,7 @@ class SerialMotorsBus(MotorsBusBase):
         length: int,
         motor_id: int,
         *,
-        num_retry: int = 0,
+        num_retry: int = 5,
         raise_on_error: bool = True,
         err_msg: str = "",
     ) -> tuple[int, int, int]:
@@ -1049,7 +1049,7 @@ class SerialMotorsBus(MotorsBusBase):
 
     @check_if_not_connected
     def write(
-        self, data_name: str, motor: str, value: Value, *, normalize: bool = True, num_retry: int = 0
+        self, data_name: str, motor: str, value: Value, *, normalize: bool = True, num_retry: int = 5
     ) -> None:
         """Write a value to a single motor's register.
 
@@ -1087,7 +1087,7 @@ class SerialMotorsBus(MotorsBusBase):
         motor_id: int,
         value: int,
         *,
-        num_retry: int = 0,
+        num_retry: int = 5,
         raise_on_error: bool = True,
         err_msg: str = "",
     ) -> tuple[int, int]:
@@ -1115,7 +1115,7 @@ class SerialMotorsBus(MotorsBusBase):
         motors: NameOrID | Sequence[NameOrID] | None = None,
         *,
         normalize: bool = True,
-        num_retry: int = 0,
+        num_retry: int = 5,
     ) -> dict[str, Value]:
         """Read the same register from several motors at once.
 
@@ -1160,7 +1160,7 @@ class SerialMotorsBus(MotorsBusBase):
         length: int,
         motor_ids: list[int],
         *,
-        num_retry: int = 0,
+        num_retry: int = 5,
         raise_on_error: bool = True,
         err_msg: str = "",
     ) -> tuple[dict[int, int], int]:
@@ -1208,7 +1208,7 @@ class SerialMotorsBus(MotorsBusBase):
         values: Value | dict[str, Value],
         *,
         normalize: bool = True,
-        num_retry: int = 0,
+        num_retry: int = 5,
     ) -> None:
         """Write the same register on multiple motors.
 
@@ -1248,7 +1248,7 @@ class SerialMotorsBus(MotorsBusBase):
         addr: int,
         length: int,
         ids_values: dict[int, int],
-        num_retry: int = 0,
+        num_retry: int = 5,
         raise_on_error: bool = True,
         err_msg: str = "",
     ) -> int:
