@@ -16,10 +16,43 @@ teleoperation, and perception logic.
 To improve extensibility and support real-to-sim workflows,
 this repository reorganizes the system into clear functional modules.
 
+This repository is based on HuggingFace's LeRobot project.
+The original codebase is preserved to maintain compatibility and reference.
+
+New functionalities and refactored components are introduced in separate modules,
+allowing incremental refactoring without breaking the original workflow.
+
 In addition, new features are introduced to support:
 - Real-robot teleoperation with synchronized simulation replay
 - Data replay in simulation for policy debugging and evaluation
 
+---
+
+## Repository Structure
+
+The repository currently contains two main parts:
+
+- **Original LeRobot Codebase**
+  - The original directory structure from HuggingFace LeRobot
+  - Kept unchanged for compatibility and baseline reference
+
+- **Refactored and Extended Modules**
+  - Located in a separate directory: `src/lerobot/rebuilt`
+  - Contains newly introduced modules for:
+    - Robot arm control – `rebuilt/arm_controller`
+    - Teleoperation – `rebuilt/teleop_module`
+    - Data collection – `rebuilt/data_collector`
+    - Perception – `rebuilt/perception_module`
+    - Simulation teleoperation and replay – `rebuilt/sim`
+    - Refactored main control loop for data collection – `rebuilt/unified_loop.py`
+
+## Testing
+
+Test scripts are located under `tests` and include:
+
+- Module-level sanity checks and control loop validation - `test_lerobot_modules.py`
+- Teleoperation behavior validation in simulation - `test_scenario_b.py`
+- Data replay consistency validation - `test_data_replay.py`
 ---
 
 ## System Modularization
@@ -67,9 +100,6 @@ The system is refactored into the following core modules:
 ## Future Work
 
 - [ ] Add teleoperated grasping support in MuJoCo
-- [ ] Extend teleoperation to more complex manipulation tasks
-- [ ] Integrate learning-based policies for closed-loop evaluation
-
 ---
 
 ## Relation to Original Project
